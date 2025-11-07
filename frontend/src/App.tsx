@@ -1,34 +1,80 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.scss";
 
-function App() {
-  const [count, setCount] = useState(0);
+import { useState } from "react";
+import "./App.scss";
+import Sidebar from "./components/Sidebar/Sidebar";
+import type { Device, Preset } from "./types";
+import PresetModal from "./components/PresetModal/PresetModal";
+import Toast from "./components/Toast/Toast";
+import { deletePreset, getPresets, savePreset } from "./utils/api";
+
+const App: React.FC = () => {
+  // --- State management ---
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [presets, setPresets] = useState<Preset[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
+
+    // --- Preset Handlers ---
+  const handleSavePreset = async (name: string) => {
+    try {
+      const newPreset: Preset = { name, devices };
+      await savePreset(newPreset);
+
+      // Reload updated presets
+      const updated = await getPresets();
+      setPresets(updated);
+
+      setShowModal(false);
+      setToastMsg("Preset saved to backend");
+      setTimeout(() => setToastMsg(""), 3000);
+    } catch (error) {
+      console.error("Error saving preset:", error);
+      setToastMsg("Failed to save preset");
+      setTimeout(() => setToastMsg(""), 3000);
+    }
+  };
+
+    const handleLoadPreset = (i: number) => {
+    if (presets[i]) {
+      setDevices(presets[i].devices);
+      setToastMsg(`Loaded preset: ${presets[i].name}`);
+      setTimeout(() => setToastMsg(""), 2500);
+    }
+  };
+
+  const handleDeletePreset = async (i: number) => {
+    try {
+      const name = presets[i].name;
+      await deletePreset(name);
+      const updated = await getPresets();
+      setPresets(updated);
+      setToastMsg(`Deleted preset: ${name}`);
+      setTimeout(() => setToastMsg(""), 2500);
+    } catch (error) {
+      console.error("Error deleting preset:", error);
+      setToastMsg("Failed to delete preset");
+      setTimeout(() => setToastMsg(""), 3000);
+    }
+  };
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+<div className="app" style={{ display: "flex", height: "100vh" }}>
+    <Sidebar
+        setShowModal={setShowModal}
+        presets={presets}
+        onLoadPreset={handleLoadPreset}
+        onRemovePreset={handleDeletePreset}
+      />
+
+      {showModal && (
+        <PresetModal
+          onSave={handleSavePreset}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
+     {toastMsg && <Toast message={toastMsg} />}
+  </div>
   );
 }
 

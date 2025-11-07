@@ -1,0 +1,35 @@
+.toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #16a34a;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 200;
+  animation: fadeInOut 3s ease forwards;
+
+  &.error {
+    background: #dc2626;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
