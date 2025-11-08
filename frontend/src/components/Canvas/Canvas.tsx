@@ -29,12 +29,12 @@ const Canvas: React.FC<CanvasProps> = ({
     if (!type || !canvasRef.current) return;
 
     const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
 
     const id = crypto.randomUUID();
 
-    // ✅ validation: only one device at a time
+    //validation: only one device at a time
     if (devices.length > 0) {
       // show warning toast
       setToastMsg("Only one device allowed at a time. Replaced existing one!");
@@ -44,7 +44,7 @@ const Canvas: React.FC<CanvasProps> = ({
       const newDevice: Device = {
         id,
         type: type as "light" | "fan",
-        position: { x, y },
+        position: { x: centerX, y: centerY },
         settings:
           type === "light"
             ? { power: true, brightness: 70, color: "#fde68a" }
@@ -59,7 +59,7 @@ const Canvas: React.FC<CanvasProps> = ({
     const newDevice: Device = {
       id,
       type: type as "light" | "fan",
-      position: { x, y },
+      position: { x: centerX, y: centerY },
       settings:
         type === "light"
           ? { power: true, brightness: 70, color: "#fde68a" }
@@ -75,8 +75,8 @@ const Canvas: React.FC<CanvasProps> = ({
       setTimeout(() => setToastMsg(""), 2500);
       return;
     }
-    onSave(); // trigger preset modal
-    clearDevices(); // ✅ clear canvas after save
+    onSave();
+    clearDevices();
   };
 
   return (
