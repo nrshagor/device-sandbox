@@ -46,6 +46,7 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
 
   const handleColorChange = (color: string) => setColor(color);
 
+  // Outer glow of bulb
   const getLightStyle = (): React.CSSProperties => {
     if (!power) {
       return {
@@ -64,21 +65,56 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
       transition: "box-shadow 0.4s ease, background 0.3s ease",
     };
   };
+  const hexToRgba = (hex: string, alpha: number): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
+  // Filament glow line (color + white blend)
+  const getGlowLineStyle = (): React.CSSProperties => {
+    if (!power) return { display: "none" };
+
+    const intensity = brightness / 100;
+    const mainColor = hexToRgba(color, 0.7); // light transparency
+    const brightColor = hexToRgba("#ffffff", 0.9); // white overlay
+
+    return {
+      background: `linear-gradient(
+      180deg,
+      ${mainColor} 2%,
+      ${mainColor} 30%,
+      ${brightColor} 80%,
+      ${brightColor} 100%
+    )`,
+      boxShadow: `0 0 ${14 + intensity * 18}px ${brightColor},
+                 0 0 ${25 + intensity * 20}px ${mainColor}`,
+      opacity: 0.8 + intensity * 0.2,
+      transition: "all 0.3s ease",
+    };
+  };
 
   const paletteColors = ["#FFE5B4", "#F0F8FF", "#87CEEB", "#FFB6C1"];
 
   return (
     <div className="light-container">
-      {/* Light section (center) */}
+      {/* Light Section */}
       <div className="light-section">
         <div className="light-holder">
           <div className="light-holder-top" />
           <div className="light-holder-bottom" />
         </div>
-        <div className="light-body" style={getLightStyle()} />
+
+        {/* Bulb body with visible white filament */}
+        <div className="light-body" style={getLightStyle()}>
+          {power && (
+            <div className="light-glow-line" style={getGlowLineStyle()} />
+          )}
+        </div>
       </div>
 
-      {/* Control panel (bottom) */}
+      {/* Control panel */}
       <div className="light-panel">
         <div className="control-row">
           <label>Power</label>
@@ -119,6 +155,7 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
           <label>Brightness</label>
           <span>{brightness}%</span>
         </div>
+
         <input
           type="range"
           min="0"

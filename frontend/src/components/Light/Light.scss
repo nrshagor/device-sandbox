@@ -49,9 +49,13 @@
 
   /* ================= BULB BODY ================= */
   .light-body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 128px;
     height: 160px;
-    border-radius: 100px;
+    border-radius: 16777200px;
     margin-top: 6px;
     background: radial-gradient(
       112.05% 89.64% at 30% 30%,
@@ -62,6 +66,27 @@
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.15),
       inset 0 -2px 10px rgba(0, 0, 0, 0.5);
     transition: all 0.4s ease-in-out;
+
+    .light-glow-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 60%;
+      border-radius: 4px;
+      transform: translate(-50%, -50%);
+      animation: filament-flicker 1.5s infinite ease-in-out;
+    }
+
+    @keyframes filament-flicker {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.85;
+      }
+    }
   }
 
   /* ================= CONTROL PANEL ================= */
