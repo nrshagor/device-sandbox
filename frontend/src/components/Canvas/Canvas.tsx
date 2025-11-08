@@ -48,7 +48,7 @@ const Canvas: React.FC<CanvasProps> = ({
         settings:
           type === "light"
             ? { power: true, brightness: 70, color: "#fde68a" }
-            : { power: true, speed: 50 },
+            : { power: false, speed: 0 },
       };
       clearDevices();
       addDevice(newDevice);
@@ -63,7 +63,7 @@ const Canvas: React.FC<CanvasProps> = ({
       settings:
         type === "light"
           ? { power: true, brightness: 70, color: "#fde68a" }
-          : { power: true, speed: 50 },
+          : { power: false, speed: 0 },
     };
 
     addDevice(newDevice);
