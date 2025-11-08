@@ -1,11 +1,11 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.scss";
 import Sidebar from "./components/Sidebar/Sidebar";
 import type { Device, Preset } from "./types";
 import PresetModal from "./components/PresetModal/PresetModal";
 import Toast from "./components/Toast/Toast";
 import { deletePreset, getPresets, savePreset } from "./utils/api";
+import Canvas from "./components/Canvas/Canvas";
 
 const App: React.FC = () => {
   // --- State management ---
@@ -14,7 +14,30 @@ const App: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
 
-    // --- Preset Handlers ---
+  // --- Load all presets from backend once ---
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getPresets();
+        setPresets(data || []);
+      } catch (error) {
+        console.error("Failed to load presets:", error);
+      }
+    })();
+  }, []);
+
+  // --- Device handlers ---
+  const addDevice = (device: Device) => setDevices((prev) => [...prev, device]);
+
+  const updateDevice = (id: string, changes: Partial<Device>) => {
+    setDevices((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, ...changes } : d))
+    );
+  };
+
+  const clearDevices = () => setDevices([]);
+
+  // --- Preset Handlers ---
   const handleSavePreset = async (name: string) => {
     try {
       const newPreset: Preset = { name, devices };
@@ -34,7 +57,7 @@ const App: React.FC = () => {
     }
   };
 
-    const handleLoadPreset = (i: number) => {
+  const handleLoadPreset = (i: number) => {
     if (presets[i]) {
       setDevices(presets[i].devices);
       setToastMsg(`Loaded preset: ${presets[i].name}`);
@@ -57,14 +80,20 @@ const App: React.FC = () => {
     }
   };
 
-
   return (
-<div className="app" style={{ display: "flex", height: "100vh" }}>
-    <Sidebar
+    <div className="app" style={{ display: "flex", height: "100vh" }}>
+      <Sidebar
         setShowModal={setShowModal}
         presets={presets}
         onLoadPreset={handleLoadPreset}
         onRemovePreset={handleDeletePreset}
+      />
+      <Canvas
+        devices={devices}
+        addDevice={addDevice}
+        updateDevice={updateDevice}
+        clearDevices={clearDevices}
+        onSave={() => setShowModal(true)}
       />
 
       {showModal && (
@@ -73,9 +102,9 @@ const App: React.FC = () => {
           onCancel={() => setShowModal(false)}
         />
       )}
-     {toastMsg && <Toast message={toastMsg} />}
-  </div>
+      {toastMsg && <Toast message={toastMsg} />}
+    </div>
   );
-}
+};
 
 export default App;
