@@ -22,10 +22,8 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
 
   // Update parent device state whenever speed/power changes
   useEffect(() => {
-    updateDevice(device.id, {
-      settings: { power, speed },
-    });
-  }, [power, speed]);
+    updateDevice(device.id, { settings: { power, speed } });
+  }, [power, speed, device.id, updateDevice]);
 
   const getAnimationSpeed = (): string => {
     if (!power || speed <= 0) return "none";

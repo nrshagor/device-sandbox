@@ -40,16 +40,23 @@ const App: React.FC = () => {
   // --- Preset Handlers ---
   const handleSavePreset = async (name: string) => {
     try {
-      const newPreset: Preset = { name, devices };
-      await savePreset(newPreset);
+      if (devices.length === 0) {
+        setToastMsg("No devices to save!");
+        setTimeout(() => setToastMsg(""), 2500);
+        return;
+      }
 
-      // Reload updated presets
+      const devicesCopy = JSON.parse(JSON.stringify(devices));
+      const newPreset: Preset = { name, devices: devicesCopy };
+
+      await savePreset(newPreset);
       const updated = await getPresets();
       setPresets(updated);
 
       setShowModal(false);
-      setToastMsg("Preset saved to backend");
+      setToastMsg("Preset saved successfully");
       setTimeout(() => setToastMsg(""), 3000);
+      clearDevices();
     } catch (error) {
       console.error("Error saving preset:", error);
       setToastMsg("Failed to save preset");
@@ -58,11 +65,14 @@ const App: React.FC = () => {
   };
 
   const handleLoadPreset = (i: number) => {
-    if (presets[i]) {
-      setDevices(presets[i].devices);
-      setToastMsg(`Loaded preset: ${presets[i].name}`);
-      setTimeout(() => setToastMsg(""), 2500);
+    const selected = presets[i];
+    if (selected && selected.devices?.length > 0) {
+      setDevices(selected.devices);
+      setToastMsg(`Loaded preset: ${selected.name}`);
+    } else {
+      setToastMsg("Preset is empty!");
     }
+    setTimeout(() => setToastMsg(""), 2500);
   };
 
   const handleDeletePreset = async (i: number) => {
@@ -88,6 +98,7 @@ const App: React.FC = () => {
         onLoadPreset={handleLoadPreset}
         onRemovePreset={handleDeletePreset}
       />
+
       <Canvas
         devices={devices}
         addDevice={addDevice}
@@ -102,6 +113,7 @@ const App: React.FC = () => {
           onCancel={() => setShowModal(false)}
         />
       )}
+
       {toastMsg && <Toast message={toastMsg} />}
     </div>
   );

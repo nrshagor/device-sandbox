@@ -76,7 +76,6 @@ const Canvas: React.FC<CanvasProps> = ({
       return;
     }
     onSave();
-    clearDevices();
   };
 
   return (
