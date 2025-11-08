@@ -62,32 +62,33 @@
       align-items: center;
       background: var(--panel-2);
       border-radius: 8px;
-      margin-bottom: 0.4rem;
       overflow: hidden;
 
       .preset-btn {
-        flex: 1;
-        padding: 0.5rem 0.6rem;
-        background: transparent;
-        border: none;
+        display: inline-flex;
+        align-items: center;
+        column-gap: 12px;
+        width: 191px;
+        height: 46px;
+        background: var(--panel-2);
+        padding: 12px;
+        border-radius: 10px;
         color: var(--text);
-        text-align: left;
-        cursor: pointer;
-        font-size: 0.85rem;
+        border: 1px solid #364153;
 
         &:hover {
           background: #1a2340;
         }
       }
 
-      .del {
-        background: transparent;
-        border: none;
-        color: var(--danger);
-        font-size: 1rem;
-        cursor: pointer;
-        margin-right: 0.4rem;
-      }
+      // .del {
+      //   background: transparent;
+      //   border: none;
+      //   color: var(--danger);
+      //   font-size: 1rem;
+      //   cursor: pointer;
+      //   margin-right: 0.4rem;
+      // }
     }
 
     .empty {
