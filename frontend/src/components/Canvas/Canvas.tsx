@@ -47,7 +47,7 @@ const Canvas: React.FC<CanvasProps> = ({
         position: { x: centerX, y: centerY },
         settings:
           type === "light"
-            ? { power: true, brightness: 70, color: "#fde68a" }
+            ? { power: false, brightness: 0, color: "#fde68a" }
             : { power: false, speed: 0 },
       };
       clearDevices();
@@ -62,7 +62,7 @@ const Canvas: React.FC<CanvasProps> = ({
       position: { x: centerX, y: centerY },
       settings:
         type === "light"
-          ? { power: true, brightness: 70, color: "#fde68a" }
+          ? { power: false, brightness: 0, color: "#fde68a" }
           : { power: false, speed: 0 },
     };
 
