@@ -29,13 +29,14 @@
       button {
         background: #1e293b;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         padding: 0.4rem 0.8rem;
         color: var(--text);
         cursor: pointer;
         font-size: 0.85rem;
         transition: 0.2s;
-
+        height: 38px;
+        border: 1px solid #364153;
         &.save {
           background: var(--primary);
           color: white;

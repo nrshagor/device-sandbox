@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
       setShowModal(false);
       setToastMsg("Preset saved");
-      // setTimeout(() => setToastMsg(""), 3000);
+      setTimeout(() => setToastMsg(""), 3000);
       clearDevices();
     } catch (error) {
       console.error("Error saving preset:", error);

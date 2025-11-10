@@ -111,7 +111,17 @@ const Canvas: React.FC<CanvasProps> = ({
         )}
       </div>
 
-      {toastMsg && <Toast message={toastMsg} />}
+      {toastMsg && (
+        <Toast
+          message={toastMsg}
+          type={
+            toastMsg.includes("allowed") || toastMsg.includes("Nothing")
+              ? "error"
+              : "success"
+          }
+          onClose={() => setToastMsg("")}
+        />
+      )}
     </div>
   );
 };
