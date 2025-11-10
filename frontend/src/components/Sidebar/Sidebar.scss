@@ -68,6 +68,13 @@
       background: var(--panel-2);
       border-radius: 8px;
       overflow: hidden;
+      position: relative;
+
+      &:hover .del {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+        pointer-events: auto;
+      }
 
       .preset-btn {
         display: inline-flex;
@@ -81,10 +88,27 @@
         color: var(--text);
         border: 1px solid #364153;
         transition: 0.2s;
+        position: relative;
 
         &:hover {
           background: #1a2340;
         }
+      }
+
+      /* delete icon */
+      .del {
+        position: absolute;
+        right: 5px;
+        top: 55%;
+        transform: translateY(-50%) scale(0.8);
+        opacity: 0;
+        color: var(--danger);
+        background: transparent;
+        border: none;
+        font-size: 1.3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        pointer-events: none;
       }
 
       /* active preset button */
@@ -109,40 +133,6 @@
       border-radius: 10px;
       color: rgba(229, 231, 235, 0.274);
       border: 1px solid #364153;
-    }
-  }
-
-  /* ---------------- Footer ---------------- */
-  .footer-actions {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    button {
-      padding: 0.5rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    .clear {
-      background: #1e293b;
-      color: var(--muted);
-      &:hover {
-        background: #2b364f;
-      }
-    }
-
-    .save {
-      background: var(--primary);
-      color: #fff;
-      &:hover {
-        opacity: 0.9;
-      }
     }
   }
 }
