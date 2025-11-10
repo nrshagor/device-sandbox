@@ -19,21 +19,30 @@ const PresetModal: React.FC<PresetModalProps> = ({ onSave, onCancel }) => {
   return (
     <div className="preset-modal-backdrop">
       <div className="preset-modal">
-        <h3>Save Preset</h3>
+        <div className="modal-header">
+          <h3>Give me a name</h3>
+          <button className="close-btn" onClick={onCancel}>
+            ×
+          </button>
+        </div>
+        <hr />
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter preset name"
+            placeholder="Name it"
             autoFocus
           />
+          <p className="hint">
+            By adding this effect as a preset you can reuse this anytime.
+          </p>
           <div className="actions">
             <button type="button" onClick={onCancel} className="cancel">
               Cancel
             </button>
             <button type="submit" className="save">
-              Save
+              Save Preset
             </button>
           </div>
         </form>
