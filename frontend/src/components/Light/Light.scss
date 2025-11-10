@@ -68,7 +68,7 @@
       inset 0 -2px 10px rgba(0, 0, 0, 0.5);
     transition: all 0.4s ease-in-out;
 
-    // 🔸 REFLECTION highlight behind filament
+    // REFLECTION highlight behind filament
     &::before {
       content: "";
       position: absolute;
@@ -89,7 +89,7 @@
       z-index: 1; // below filament line
     }
 
-    // 🔸 Outer glass reflection (soft top highlight)
+    // Outer glass reflection (soft top highlight)
     &::after {
       content: "";
       position: absolute;
