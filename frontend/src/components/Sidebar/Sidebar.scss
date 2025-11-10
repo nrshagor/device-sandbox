@@ -15,13 +15,17 @@
     letter-spacing: -0.31px;
     font-family: "Inter", sans-serif;
   }
+
+  /* ---------------- Devices ---------------- */
   .drag-items {
     padding-top: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+
     .drag-item {
       display: inline-flex;
+      align-items: center;
       column-gap: 12px;
       width: 191px;
       height: 46px;
@@ -32,30 +36,31 @@
       transition: 0.2s;
       color: var(--text);
       border: 1px solid #364153;
+
       &:hover {
         background: rgba(100, 111, 127, 1);
-        svg {
-          path {
-            stroke: rgb(253, 253, 253);
-          }
+        svg path {
+          stroke: rgb(253, 253, 253);
         }
       }
 
       &.active {
-        border: 1px solid var(--primary);
-        color: var(--primary);
-        svg {
-          path {
-            stroke: rgb(253, 253, 253);
-          }
+        border: 1px solid var(--ac);
+        color: var(--text);
+        background: rgba(100, 111, 127, 1);
+        svg path {
+          stroke: rgb(253, 253, 253);
         }
       }
     }
   }
+
+  /* ---------------- Saved Presets ---------------- */
   .presets {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
     .preset-item {
       display: flex;
       justify-content: space-between;
@@ -75,25 +80,28 @@
         border-radius: 10px;
         color: var(--text);
         border: 1px solid #364153;
+        transition: 0.2s;
 
         &:hover {
           background: #1a2340;
         }
       }
 
-      // .del {
-      //   background: transparent;
-      //   border: none;
-      //   color: var(--danger);
-      //   font-size: 1rem;
-      //   cursor: pointer;
-      //   margin-right: 0.4rem;
-      // }
+      /* active preset button */
+      &.active .preset-btn {
+        border: 1px solid var(--active-background);
+        color: var(--text);
+        background: rgba(100, 111, 127, 1);
+        svg path {
+          stroke: rgb(253, 253, 253);
+        }
+      }
     }
 
     .empty {
       display: inline-flex;
-      column-gap: 12px;
+      align-items: center;
+      justify-content: center;
       width: 191px;
       height: 46px;
       background: transparent;
@@ -103,6 +111,8 @@
       border: 1px solid #364153;
     }
   }
+
+  /* ---------------- Footer ---------------- */
   .footer-actions {
     margin-top: auto;
     display: flex;

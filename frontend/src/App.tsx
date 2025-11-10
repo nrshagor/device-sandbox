@@ -97,6 +97,7 @@ const App: React.FC = () => {
         presets={presets}
         onLoadPreset={handleLoadPreset}
         onRemovePreset={handleDeletePreset}
+        devices={devices}
       />
 
       <Canvas
