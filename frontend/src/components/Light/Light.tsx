@@ -17,6 +17,13 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
 
   useEffect(() => {
     updateDevice(device.id, { settings: { power, brightness, color } });
+
+    const slider = document.querySelector<HTMLInputElement>(
+      `input[type="range"][data-id="${device.id}"]`
+    );
+    if (slider) {
+      slider.style.setProperty("--value", `${brightness}%`);
+    }
   }, [power, brightness, color]);
 
   useEffect(() => {
@@ -125,7 +132,8 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
           <label>Power</label>
           <div
             className={`toggle ${power ? "active" : ""}`}
-            onClick={handlePowerToggle}>
+            onClick={handlePowerToggle}
+          >
             <div className="circle" />
           </div>
         </div>
@@ -166,6 +174,7 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
           max="100"
           value={brightness}
           onChange={handleBrightnessChange}
+          data-id={device.id}
         />
       </div>
     </div>
