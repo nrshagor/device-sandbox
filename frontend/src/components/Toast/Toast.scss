@@ -1,35 +1,50 @@
 .toast {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: #16a34a;
-  color: white;
-  padding: 0.8rem 1.2rem;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(90deg, #183724 0%, #1a202b 70%, #1a202b 100%);
+  color: #fff;
+  padding: 14px 22px;
   border-radius: 8px;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 200;
-  animation: fadeInOut 3s ease forwards;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  min-width: 260px;
+  z-index: 300;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  animation: toastSlide 0.4s ease forwards, fadeOut 0.5s ease 2.8s forwards;
+
+  svg {
+    flex-shrink: 0;
+  }
 
   &.error {
-    background: #dc2626;
+    background: #2b1818;
+
+    svg path {
+      fill: #ff5555;
+    }
   }
 }
 
-@keyframes fadeInOut {
-  0% {
+@keyframes toastSlide {
+  from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateX(-50%) translateY(70px);
   }
-  10% {
+  to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(60);
   }
-  90% {
-    opacity: 1;
-  }
-  100% {
+}
+
+@keyframes fadeOut {
+  to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateX(-50%) translateY(70px);
   }
 }

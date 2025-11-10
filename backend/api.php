@@ -42,7 +42,7 @@ switch ($action) {
     ];
 
     file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT));
-    echo json_encode(['message' => 'Preset saved successfully']);
+    echo json_encode(['message' => 'Preset saved']);
     break;
 
 
