@@ -103,7 +103,12 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
       <div className="light-section">
         <div className="light-holder">
           <div className="light-holder-top" />
-          <div className="light-holder-bottom" />
+          <div className="light-holder-bottom">
+            <div className="part" />
+            <div className="part" />
+            <div className="part" />
+            <div className="part" />
+          </div>
         </div>
 
         {/* Bulb body with visible white filament */}
@@ -120,8 +125,7 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
           <label>Power</label>
           <div
             className={`toggle ${power ? "active" : ""}`}
-            onClick={handlePowerToggle}
-          >
+            onClick={handlePowerToggle}>
             <div className="circle" />
           </div>
         </div>
