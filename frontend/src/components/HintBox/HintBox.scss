@@ -1,0 +1,53 @@
+.hint-box {
+  position: absolute;
+  top: 30px;
+  left: -40px;
+  background: #2b7fff;
+  width: 227px;
+  height: 72px;
+  color: #f3f4f6;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  animation: fadeIn 0.6s ease, floaty 2.4s ease-in-out infinite;
+  text-align: center;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  /* small arrow pointing toward sidebar */
+  .hint-pointer {
+    width: 18.5px;
+    height: 21.36px;
+    position: absolute;
+    left: -19px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 17px solid #2175d7;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(0px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* floating motion */
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+}

@@ -6,6 +6,7 @@
   overflow: hidden;
   padding: 0 24px 0px;
   gap: 16px;
+  overflow: visible;
   .canvas-header {
     display: flex;
     justify-content: space-between;
@@ -69,7 +70,8 @@
     background: rgba(10, 16, 29, 1);
     border-radius: 14px;
     border: 1px solid rgba(30, 41, 57, 1);
-    overflow: hidden;
+    overflow: visible;
+    z-index: 1;
 
     .placeholder {
       position: absolute;

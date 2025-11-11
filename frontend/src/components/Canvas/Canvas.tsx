@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Canvas.scss";
 import Fan from "../Fan/Fan";
 import Light from "../Light/Light";
 import type { Device } from "../../types";
 import Toast from "../Toast/Toast";
-
+import HintBox from "../HintBox/HintBox";
 interface CanvasProps {
   devices: Device[];
   addDevice: (device: Device) => void;
@@ -22,6 +22,7 @@ const Canvas: React.FC<CanvasProps> = ({
 }) => {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const [toastMsg, setToastMsg] = useState("");
+  const [showHint, setShowHint] = useState(true);
 
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -67,6 +68,7 @@ const Canvas: React.FC<CanvasProps> = ({
     };
 
     addDevice(newDevice);
+    setShowHint(false);
   };
 
   const handleSave = () => {
@@ -77,6 +79,11 @@ const Canvas: React.FC<CanvasProps> = ({
     }
     onSave();
   };
+  useEffect(() => {
+    if (devices.length === 0) {
+      setShowHint(true);
+    }
+  }, [devices]);
 
   return (
     <div className="canvas-wrapper">
@@ -96,9 +103,16 @@ const Canvas: React.FC<CanvasProps> = ({
         ref={canvasRef}
         className="canvas-body"
         onDrop={onDrop}
-        onDragOver={(e) => e.preventDefault()}
-      >
+        onDragOver={(e) => e.preventDefault()}>
         {devices.length === 0 && (
+          <div className="placeholder">Drag anything here</div>
+        )}
+
+        {/* HintBox */}
+        {showHint && devices.length === 0 && (
+          <HintBox message=" Drag items from here" />
+        )}
+        {devices.length === 0 && !showHint && (
           <div className="placeholder">Drag anything here</div>
         )}
 
