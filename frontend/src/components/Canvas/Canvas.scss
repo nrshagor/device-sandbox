@@ -64,11 +64,12 @@
     justify-content: center;
     padding-bottom: clamp(10px, 0vh, 90px);
     .placeholder {
+      font-size: 16px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: rgba(229, 231, 235, 0.473);
+      color: rgba(229, 231, 235, 0.315);
       font-size: 0.9rem;
     }
 

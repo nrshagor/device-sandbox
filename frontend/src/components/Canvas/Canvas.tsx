@@ -108,7 +108,7 @@ const Canvas: React.FC<CanvasProps> = ({
         {showHint && devices.length === 0 && (
           <HintBox message=" Drag items from here" />
         )}
-        {devices.length === 0 && !showHint && (
+        {devices.length === 0 && (
           <div className="placeholder">Drag anything here</div>
         )}
 
