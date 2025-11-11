@@ -81,6 +81,7 @@ const App: React.FC = () => {
       await deletePreset(name);
       const updated = await getPresets();
       setPresets(updated);
+      setDevices([]);
       setToastMsg(`Deleted preset: ${name}`);
       setTimeout(() => setToastMsg(""), 2500);
     } catch (error) {
