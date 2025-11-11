@@ -104,10 +104,6 @@ const Canvas: React.FC<CanvasProps> = ({
         className="canvas-body"
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}>
-        {devices.length === 0 && (
-          <div className="placeholder">Drag anything here</div>
-        )}
-
         {/* HintBox */}
         {showHint && devices.length === 0 && (
           <HintBox message=" Drag items from here" />

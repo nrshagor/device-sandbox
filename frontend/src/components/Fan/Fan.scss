@@ -2,206 +2,217 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: rgb(16 24 40 / 1%);
-  gap: 100px;
-  padding: 20px;
-
-  @media (max-width: 1200px) {
-    gap: 80px;
-  }
-
-  @media (max-width: 992px) {
-    gap: 60px;
-  }
-
-  @media (max-width: 768px) {
-    gap: 40px;
-  }
-}
-
-/* ================= FAN ================= */
-.fan-body {
+  justify-content: flex-end;
+  min-height: 100%;
+  width: 100%;
   position: relative;
-  width: 220px;
-  height: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: spin linear infinite;
-  animation-play-state: paused;
-  transform-origin: center center;
-  bottom: 105px;
-  &.on {
-    animation-play-state: running;
-  }
+  background: transparent;
+  gap: 100px;
 
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* Blades */
-  .blade {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 134px;
-    height: 56px;
-    background: linear-gradient(
-      80deg,
-      rgba(74, 85, 104, 1) 0%,
-      rgba(45, 55, 72, 1) 40%,
-      rgba(26, 32, 44, 1) 95%,
-      rgba(15, 20, 25, 1) 100%
-    );
-    border-top-right-radius: 9999px;
-    border-bottom-right-radius: 9999px;
-    transform-origin: center left;
-    opacity: 0.9;
-    box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.1),
-      0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  .blade1 {
-    transform: translate(20%, -50%) rotate(0deg);
-  }
-  .blade2 {
-    transform: translate(0%, 0%) rotate(90deg);
-  }
-  .blade3 {
-    transform: translate(-20%, -50%) rotate(180deg);
-  }
-  .blade4 {
-    transform: translate(0%, -100%) rotate(270deg);
-  }
-
-  .center-outer {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(
-      180deg,
-      rgba(74, 85, 101, 1),
-      rgba(30, 41, 57, 1)
-    );
-    border: 4px solid rgba(54, 65, 83, 1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* ================= FAN ================= */
+  .fan-body {
+    position: relative;
+    width: 220px;
+    height: 220px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 5;
-  }
+    align-items: center;
+    animation: spin linear infinite;
+    animation-play-state: paused;
+    transform-origin: center center;
+    margin-bottom: clamp(50px, 8vh, 100px);
+    z-index: 2;
 
-  .center-inner {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(
-      180deg,
-      rgba(54, 65, 83, 1),
-      rgba(16, 24, 40, 1)
-    );
-  }
+    &.on {
+      animation-play-state: running;
+    }
 
-  /* Responsive scaling */
-  @media (min-width: 1600px) {
-    width: 300px;
-    height: 300px;
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
+    /* Blades */
     .blade {
-      width: 180px;
-      height: 70px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 134px;
+      height: 56px;
+      background: linear-gradient(
+        80deg,
+        rgba(74, 85, 104, 1) 0%,
+        rgba(45, 55, 72, 1) 40%,
+        rgba(26, 32, 44, 1) 95%,
+        rgba(15, 20, 25, 1) 100%
+      );
+      border-top-right-radius: 9999px;
+      border-bottom-right-radius: 9999px;
+      transform-origin: center left;
+      opacity: 0.9;
+      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .blade1 {
+      transform: translate(20%, -50%) rotate(0deg);
+    }
+    .blade2 {
+      transform: translate(0%, 0%) rotate(90deg);
+    }
+    .blade3 {
+      transform: translate(-20%, -50%) rotate(180deg);
+    }
+    .blade4 {
+      transform: translate(0%, -100%) rotate(270deg);
     }
 
     .center-outer {
-      width: 110px;
-      height: 110px;
-    }
-
-    .center-inner {
+      position: absolute;
       width: 80px;
       height: 80px;
-    }
-  }
-
-  @media (max-width: 992px) {
-    width: 180px;
-    height: 180px;
-
-    .blade {
-      width: 110px;
-      height: 45px;
-    }
-
-    .center-outer {
-      width: 65px;
-      height: 65px;
+      border-radius: 50%;
+      background: linear-gradient(
+        180deg,
+        rgba(74, 85, 101, 1),
+        rgba(30, 41, 57, 1)
+      );
+      border: 4px solid rgba(54, 65, 83, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
     }
 
     .center-inner {
-      width: 45px;
-      height: 45px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(
+        180deg,
+        rgba(54, 65, 83, 1),
+        rgba(16, 24, 40, 1)
+      );
+    }
+
+    /* Responsive scaling */
+    @media (min-width: 1600px) {
+      width: 300px;
+      height: 300px;
+
+      .blade {
+        width: 180px;
+        height: 70px;
+      }
+
+      .center-outer {
+        width: 110px;
+        height: 110px;
+      }
+
+      .center-inner {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      width: 180px;
+      height: 180px;
+
+      .blade {
+        width: 110px;
+        height: 45px;
+      }
+
+      .center-outer {
+        width: 65px;
+        height: 65px;
+      }
+
+      .center-inner {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      width: 140px;
+      height: 140px;
+
+      .blade {
+        width: 80px;
+        height: 35px;
+      }
+
+      .center-outer {
+        width: 50px;
+        height: 50px;
+      }
+
+      .center-inner {
+        width: 36px;
+        height: 36px;
+      }
     }
   }
 
-  @media (max-width: 576px) {
-    width: 140px;
-    height: 140px;
+  /* ================= PANEL ================= */
+  .fan-panel {
+    background: rgba(30, 41, 57, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 25px;
+    width: 448px;
+    height: 138.4px;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    position: relative;
+    bottom: 0;
+    margin-bottom: 1rem;
+    z-index: 1;
 
-    .blade {
-      width: 80px;
-      height: 35px;
+    @media (min-width: 1600px) {
+      width: 520px;
+      height: 160px;
+      font-size: 1rem;
     }
 
-    .center-outer {
-      width: 50px;
-      height: 50px;
+    @media (max-width: 992px) {
+      width: 380px;
+      height: 130px;
+      font-size: 0.9rem;
     }
 
-    .center-inner {
-      width: 36px;
-      height: 36px;
+    @media (max-width: 576px) {
+      width: 320px;
+      height: auto;
+      padding: 18px;
     }
   }
-}
 
-/* ================= PANEL ================= */
-.fan-panel {
-  background: rgba(30, 41, 57, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 14px;
-  padding: 25px;
-  width: 448px;
-  height: 138.4px;
-  color: #cbd5e1;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  position: absolute;
-  bottom: 18px;
-
-  @media (min-width: 1600px) {
-    width: 520px;
-    height: 160px;
-    font-size: 1rem;
+  /* Responsive Height Adjustment */
+  @media (max-height: 700px) {
+    .fan-body {
+      transform: scale(0.9);
+      margin-bottom: 40px;
+    }
+    .fan-panel {
+      transform: scale(0.95);
+    }
   }
 
-  @media (max-width: 992px) {
-    width: 380px;
-    height: 130px;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 576px) {
-    width: 320px;
-    height: auto;
-    padding: 18px;
+  @media (max-height: 600px) {
+    .fan-body {
+      transform: scale(0.8);
+      margin-bottom: 30px;
+    }
   }
 }
 
@@ -234,7 +245,6 @@
 
   &.active {
     background: #3b82f6;
-
     .circle {
       background: #fff;
       transform: translateX(20px);
