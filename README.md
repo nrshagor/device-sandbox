@@ -38,6 +38,7 @@ device-sandbox/
 │ │ │ ├── Canvas/
 │ │ │ ├── ConfirmModal/
 │ │ │ ├── Fan/
+│ │ │ ├── HintBox/
 │ │ │ ├── Light/
 │ │ │ ├── PresetModal/
 │ │ │ ├── Sidebar/
