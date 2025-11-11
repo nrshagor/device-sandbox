@@ -7,7 +7,6 @@
   width: 100%;
   position: relative;
   background: transparent;
-  gap: 100px;
 
   /* ================= FAN ================= */
   .fan-body {
@@ -20,7 +19,7 @@
     animation: spin linear infinite;
     animation-play-state: paused;
     transform-origin: center center;
-    margin-bottom: clamp(50px, 8vh, 100px);
+    margin-bottom: 150px;
     z-index: 2;
 
     &.on {
@@ -201,7 +200,7 @@
   @media (max-height: 700px) {
     .fan-body {
       transform: scale(0.9);
-      margin-bottom: 40px;
+      margin-bottom: 70px;
     }
     .fan-panel {
       transform: scale(0.95);
