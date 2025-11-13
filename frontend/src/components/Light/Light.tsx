@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Light.scss";
 import type { Device, LightSettings } from "../../types";
 
@@ -10,50 +10,43 @@ interface LightProps {
 const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
   const settings = device.settings as LightSettings;
 
-  const [power, setPower] = useState<boolean>(settings.power);
-  const [brightness, setBrightness] = useState<number>(settings.brightness);
-  const [color, setColor] = useState<string>(settings.color);
-  const [glowLevel, setGlowLevel] = useState<number>(0);
+  const [power, setPower] = useState(settings.power);
+  const [brightness, setBrightness] = useState(settings.brightness);
+  const [color, setColor] = useState(settings.color);
+  const [glowLevel, setGlowLevel] = useState(settings.brightness);
 
+  const sliderRef = useRef<HTMLInputElement>(null);
+
+  /* Sync parent */
   useEffect(() => {
     updateDevice(device.id, { settings: { power, brightness, color } });
 
-    const slider = document.querySelector<HTMLInputElement>(
-      `input[type="range"][data-id="${device.id}"]`
-    );
-    if (slider) {
-      slider.style.setProperty("--value", `${brightness}%`);
+    if (sliderRef.current) {
+      sliderRef.current.style.setProperty("--value", `${brightness}%`);
     }
-  }, [power, brightness, color]);
 
-  useEffect(() => {
     if (power) {
-      setGlowLevel(0);
-      const interval = setInterval(() => {
-        setGlowLevel((prev) => {
-          if (prev >= brightness) {
-            clearInterval(interval);
-            return brightness;
-          }
-          return prev + 5;
-        });
-      }, 20);
-      return () => clearInterval(interval);
+      setGlowLevel(brightness); // brightness change হলে glow update হবে
     } else {
       setGlowLevel(0);
     }
-  }, [power, brightness]);
+  }, [power, brightness, color]);
 
+  /* Handlers */
   const handlePowerToggle = () => setPower((prev) => !prev);
+
   const handleBrightnessChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
     setBrightness(val);
-    e.target.style.setProperty("--value", `${val}%`);
+
+    if (sliderRef.current) {
+      sliderRef.current.style.setProperty("--value", `${val}%`);
+    }
   };
 
-  const handleColorChange = (color: string) => setColor(color);
+  const handleColorChange = (c: string) => setColor(c);
 
-  // Outer glow of bulb
+  /* Light style */
   const getLightStyle = (): React.CSSProperties => {
     if (!power) {
       return {
@@ -64,49 +57,45 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
       };
     }
 
-    const glow = Math.max(20, glowLevel * 0.8);
+    const glow = Math.max(10, glowLevel * 0.7);
+
     return {
       background: color,
-      boxShadow: `0 0 ${glow}px ${glow / 3}px ${color}`,
+      boxShadow: `0 0 ${glow}px ${glow / 2}px ${color}`,
       opacity: 1,
-      transition: "box-shadow 0.4s ease, background 0.3s ease",
+      transition: "box-shadow 0.2s ease, background 0.2s ease",
     };
   };
-  const hexToRgba = (hex: string, alpha: number): string => {
+
+  const hexToRgba = (hex: string, alpha: number) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
 
-  // Filament glow line (color + white blend)
   const getGlowLineStyle = (): React.CSSProperties => {
     if (!power) return { display: "none" };
 
     const intensity = brightness / 100;
-    const mainColor = hexToRgba(color, 0.7); // light transparency
-    const brightColor = hexToRgba("#ffffff", 0.9); // white overlay
+    const mainColor = hexToRgba(color, 0.9);
+    const white = hexToRgba("#ffffff", 1);
 
     return {
       background: `linear-gradient(
-      180deg,
-      ${mainColor} 2%,
-      ${mainColor} 30%,
-      ${brightColor} 80%,
-      ${brightColor} 100%
-    )`,
-      boxShadow: `0 0 ${14 + intensity * 18}px ${brightColor},
-                 0 0 ${25 + intensity * 20}px ${mainColor}`,
-      opacity: 0.8 + intensity * 0.2,
-      transition: "all 0.3s ease",
+        180deg,
+        ${mainColor} 10%,
+        ${white} 80%
+      )`,
+      boxShadow: `0 0 ${20 + intensity * 30}px ${white}`,
+      opacity: 0.85,
+      transition: "all 0.2s ease",
     };
   };
 
-  const paletteColors = ["#FFE5B4", "#F0F8FF", "#87CEEB", "#FFB6C1"];
-
+  // Render
   return (
     <div className="light-container">
-      {/* Light Section */}
       <div className="light-section">
         <div className="light-holder">
           <div className="light-holder-top" />
@@ -118,7 +107,6 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
           </div>
         </div>
 
-        {/* Bulb body with visible white filament */}
         <div className="light-body" style={getLightStyle()}>
           {power && (
             <div className="light-glow-line" style={getGlowLineStyle()} />
@@ -126,7 +114,6 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
         </div>
       </div>
 
-      {/* Control panel */}
       <div className="light-panel">
         <div className="control-row">
           <label>Power</label>
@@ -143,24 +130,19 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
         </div>
 
         <div className="color-palette">
-          {paletteColors.map((c) => {
-            const bg = power ? c : `${c}66`;
-            const border =
-              color === c
-                ? "2px solid rgba(43,127,255,1)"
-                : "2px solid rgba(74,85,101,1)";
-            return (
-              <button
-                key={c}
-                style={{
-                  background: bg,
-                  border,
-                  transition: "all 0.3s ease",
-                }}
-                onClick={() => handleColorChange(c)}
-              />
-            );
-          })}
+          {["#FFE5B4", "#F0F8FF", "#87CEEB", "#FFB6C1"].map((c) => (
+            <button
+              key={c}
+              onClick={() => handleColorChange(c)}
+              style={{
+                background: power ? c : `${c}66`,
+                border:
+                  color === c
+                    ? "2px solid rgba(43,127,255,1)"
+                    : "2px solid rgba(74,85,101,1)",
+              }}
+            />
+          ))}
         </div>
 
         <div className="control-row">
@@ -169,6 +151,7 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
         </div>
 
         <input
+          ref={sliderRef}
           type="range"
           min="0"
           max="100"

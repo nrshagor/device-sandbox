@@ -13,17 +13,21 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
   const [speed, setSpeed] = useState(settings.speed);
   const sliderRef = useRef<HTMLInputElement>(null);
 
-  // Update CSS variable dynamically
+  // update range bar color
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.style.setProperty("--value", `${speed}%`);
     }
   }, [speed]);
 
-  // Update parent device state whenever speed/power changes
-  useEffect(() => {
+  // update parent only when user stops dragging
+  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSpeed(Number(e.target.value));
+  };
+
+  const handleSpeedCommit = () => {
     updateDevice(device.id, { settings: { power, speed } });
-  }, [power, speed, device.id, updateDevice]);
+  };
 
   const getAnimationSpeed = (): string => {
     if (!power || speed <= 0) return "none";
@@ -37,13 +41,10 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
         className={`fan-body ${power ? "on" : "off"}`}
         style={{ animationDuration: getAnimationSpeed() }}
       >
-        {/* 4 Blades */}
         <div className="blade blade1" />
         <div className="blade blade2" />
         <div className="blade blade3" />
         <div className="blade blade4" />
-
-        {/* Center Circle */}
         <div className="center-outer">
           <div className="center-inner" />
         </div>
@@ -54,7 +55,11 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
           <label>Power</label>
           <div
             className={`toggle ${power ? "active" : ""}`}
-            onClick={() => setPower(!power)}
+            onClick={() => {
+              const newPower = !power;
+              setPower(newPower);
+              updateDevice(device.id, { settings: { power: newPower, speed } });
+            }}
           >
             <div className="circle" />
           </div>
@@ -71,7 +76,9 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
           min="0"
           max="100"
           value={speed}
-          onChange={(e) => setSpeed(Number(e.target.value))}
+          onInput={handleSpeedChange}
+          onMouseUp={handleSpeedCommit}
+          onTouchEnd={handleSpeedCommit}
           className="speed-slider"
         />
       </div>

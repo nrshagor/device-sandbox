@@ -1,7 +1,8 @@
 import type { Preset } from "../types";
 
-export const API_URL = "http://localhost/device-sandbox/backend/api.php";
-
+// export const API_URL = "http://localhost/device-sandbox/backend/api.php";
+export const API_URL =
+  "https://devicesandboxsimulator.datazily.com/backend/api.php";
 // --- getPresets ---
 export async function getPresets(): Promise<Preset[]> {
   const res = await fetch(`${API_URL}?action=get`);
