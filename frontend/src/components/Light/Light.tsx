@@ -57,13 +57,13 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
       };
     }
 
-    const glow = Math.max(10, glowLevel * 0.7);
+    const glow = Math.max(60, glowLevel * 0.7);
 
     return {
       background: color,
-      boxShadow: `0 0 ${glow}px ${glow / 2}px ${color}`,
+      boxShadow: `0 0 ${glow}px ${glow / 90}px ${color}`,
       opacity: 1,
-      transition: "box-shadow 0.2s ease, background 0.2s ease",
+      transition: "box-shadow 0.5s ease, background 0.5s ease",
     };
   };
 
@@ -109,7 +109,44 @@ const Light: React.FC<LightProps> = ({ device, updateDevice }) => {
 
         <div className="light-body" style={getLightStyle()}>
           {power && (
-            <div className="light-glow-line" style={getGlowLineStyle()} />
+            <>
+              <div
+                className="glow-layer-1"
+                style={{
+                  opacity: 0.82 + brightness / 10,
+                  background: hexToRgba(color, 1.82), // softer base color
+                  filter: `blur(${50 + brightness * 0.1}px)`,
+                  transform: `translate(-50%, -50%) scale(${
+                    0.4 + brightness / 200
+                  })`,
+                }}
+              />
+
+              <div
+                className="glow-layer-2"
+                style={{
+                  opacity: 0.9 + brightness / 100,
+                  background: hexToRgba(color, 1.71),
+                  filter: `blur(${60 + brightness * 1.8}px)`,
+                  transform: `translate(-50%, -50%) scale(${
+                    0.2 + brightness / 580
+                  })`,
+                }}
+              />
+              <div
+                className="glow-layer-3"
+                style={{
+                  opacity: 0.93 + brightness / 40,
+                  background: hexToRgba(color, 0.37),
+                  filter: `blur(${30 + brightness * 0.85}px)`,
+                  transform: `translate(-50%, -50%) scale(${
+                    0.2 + brightness / 150
+                  })`,
+                }}
+              />
+
+              <div className="light-glow-line" style={getGlowLineStyle()} />
+            </>
           )}
         </div>
       </div>

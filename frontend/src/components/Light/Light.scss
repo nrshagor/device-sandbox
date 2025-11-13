@@ -112,7 +112,7 @@
       height: 90px;
       transform: translateX(-50%);
       border-radius: 14px;
-      opacity: 0.25;
+      opacity: 0.05;
       background: linear-gradient(
         145deg,
         rgba(255, 255, 255, 0.4) 0%,
@@ -120,6 +120,40 @@
       );
       filter: blur(10px);
       z-index: 1;
+    }
+    .glow-layer-1,
+    .glow-layer-2,
+    .glow-layer-3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Layer 1 — Bulb smooth soft core */
+    .glow-layer-1 {
+      width: 170px;
+      height: 210px;
+      background: rgba(255, 229, 180, 0.85);
+      filter: blur(40px);
+    }
+
+    /* Layer 2 — Mid glow (48px blur look) */
+    .glow-layer-2 {
+      width: 260px;
+      height: 260px;
+      background: rgba(255, 229, 180, 0.5);
+      filter: blur(60px);
+    }
+
+    /* Layer 3 — Outer ambient glow (128px blur look) */
+    .glow-layer-3 {
+      width: 420px;
+      height: 420px;
+      background: rgba(255, 229, 180, 0.25);
+      filter: blur(120px);
     }
 
     .light-glow-line {
