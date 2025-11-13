@@ -9,42 +9,52 @@ interface FanProps {
 
 const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
   const settings = device.settings as FanSettings;
+
   const [power, setPower] = useState(settings.power);
   const [speed, setSpeed] = useState(settings.speed);
   const sliderRef = useRef<HTMLInputElement>(null);
 
-  // update range bar color
+  /* ---  slider UI only --- */
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.style.setProperty("--value", `${speed}%`);
     }
   }, [speed]);
 
-  // update parent only when user stops dragging
-  const handleSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSpeed(Number(e.target.value));
-  };
-
+  /* ---  parent only after user releases slider --- */
   const handleSpeedCommit = () => {
     updateDevice(device.id, { settings: { power, speed } });
   };
 
-  const getAnimationSpeed = (): string => {
+  /* ---  rotation speed --- */
+  const getAnimationSpeed = () => {
     if (!power || speed <= 0) return "none";
-    const duration = (1.5 - speed / 100).toFixed(2);
-    return `${duration}s`;
+
+    // Ease-out curve (more smooth!)
+    const ease = Math.pow(speed / 100, 1.8);
+
+    const minSpeed = 0.25; // fastest rotation
+    const maxSpeed = 2.2; // slowest rotation
+
+    const duration = maxSpeed - ease * (maxSpeed - minSpeed);
+
+    return `${duration.toFixed(2)}s`;
   };
 
   return (
     <div className="fan-container">
       <div
         className={`fan-body ${power ? "on" : "off"}`}
-        style={{ animationDuration: getAnimationSpeed() }}
+        style={{
+          animationDuration: getAnimationSpeed(),
+          transition: "animation-duration 0.28s ease-out",
+        }}
       >
         <div className="blade blade1" />
         <div className="blade blade2" />
         <div className="blade blade3" />
         <div className="blade blade4" />
+
         <div className="center-outer">
           <div className="center-inner" />
         </div>
@@ -58,7 +68,9 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
             onClick={() => {
               const newPower = !power;
               setPower(newPower);
-              updateDevice(device.id, { settings: { power: newPower, speed } });
+              updateDevice(device.id, {
+                settings: { power: newPower, speed },
+              });
             }}
           >
             <div className="circle" />
@@ -76,7 +88,7 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
           min="0"
           max="100"
           value={speed}
-          onInput={handleSpeedChange}
+          onInput={(e) => setSpeed(Number(e.currentTarget.value))}
           onMouseUp={handleSpeedCommit}
           onTouchEnd={handleSpeedCommit}
           className="speed-slider"

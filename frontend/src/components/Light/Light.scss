@@ -14,9 +14,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    /* Controlled gap */
-    margin-bottom: 150px; /* default for large screens */
+    margin-bottom: 150px;
 
     @media (max-width: 1900px) {
       margin-bottom: 40px;
