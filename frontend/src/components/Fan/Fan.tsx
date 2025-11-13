@@ -31,9 +31,9 @@ const Fan: React.FC<FanProps> = ({ device, updateDevice }) => {
     if (!power || speed <= 0) return "none";
 
     // Ease-out curve (more smooth!)
-    const ease = Math.pow(speed / 100, 1.8);
+    const ease = Math.pow(speed / 90, 0.8);
 
-    const minSpeed = 0.25; // fastest rotation
+    const minSpeed = 0.2; // fastest rotation
     const maxSpeed = 2.2; // slowest rotation
 
     const duration = maxSpeed - ease * (maxSpeed - minSpeed);
